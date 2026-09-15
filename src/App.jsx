@@ -1,8 +1,8 @@
+import { ReactLenis } from 'lenis/react'
 import { Route, Routes } from 'react-router-dom'
 import AnnounceBar from './components/AnnounceBar'
 import Backdrop from './components/Backdrop'
 import CartPanel from './components/CartPanel'
-import Footer from './components/Footer'
 import Header from './components/Header'
 import MenuPanel from './components/MenuPanel'
 import OfferPanel from './components/OfferPanel'
@@ -19,6 +19,7 @@ function App() {
     <UIProvider>
       <CartProvider>
         <div className="min-h-screen flex flex-col">
+          <ReactLenis root options={{ lerp: 0.1 }} />
           <ScrollToTop />
           <AnnounceBar />
           <Header />
@@ -29,10 +30,6 @@ function App() {
             <Route path="/products/:id" element={<Product />} />
             <Route path="/checkout" element={<Checkout />} />
           </Routes>
-
-          <div className="h-14" aria-hidden="true" />
-
-          <Footer />
 
           <Backdrop />
           <MenuPanel />

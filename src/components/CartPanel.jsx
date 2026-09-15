@@ -37,18 +37,19 @@ export default function CartPanel() {
       ) : (
         items.map((line) => (
           <div
-            key={`${line.id}-${line.size}`}
+            key={`${line.id}-${line.size}-${line.color}`}
             className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-2 p-4 md:p-6 border-b border-line tabular-nums"
           >
             <span>
               {line.name}
+              {line.color ? `, ${line.color}` : ''}
               {line.size ? `, ${line.size}` : ''}
             </span>
             <span>£{line.price * line.qty}</span>
             <div className="col-span-2 flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setQty(line.id, line.size, -1)}
+                onClick={() => setQty(line.id, line.size, line.color, -1)}
                 aria-label="Fewer"
                 className="w-6 h-6 border border-line grid place-items-center"
               >
@@ -57,7 +58,7 @@ export default function CartPanel() {
               <span>{line.qty}</span>
               <button
                 type="button"
-                onClick={() => setQty(line.id, line.size, 1)}
+                onClick={() => setQty(line.id, line.size, line.color, 1)}
                 aria-label="More"
                 className="w-6 h-6 border border-line grid place-items-center"
               >
@@ -65,7 +66,7 @@ export default function CartPanel() {
               </button>
               <button
                 type="button"
-                onClick={() => removeItem(line.id, line.size)}
+                onClick={() => removeItem(line.id, line.size, line.color)}
                 className="ml-auto text-xs text-muted underline"
               >
                 Remove

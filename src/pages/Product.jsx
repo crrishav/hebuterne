@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import AccordionItem from '../components/AccordionItem'
 import { useCart } from '../context/CartContext'
-import { PRODUCTS, SIZES } from '../data/products'
+import { PRODUCTS, SIZES, getProductImages } from '../data/products'
 
 export default function Product() {
   const { id } = useParams()
@@ -12,6 +12,7 @@ export default function Product() {
   const [sizeError, setSizeError] = useState(false)
   const [added, setAdded] = useState(false)
   const [activeImage, setActiveImage] = useState(0)
+  const [color, setColor] = useState(product?.colors?.[0]?.key ?? null)
   const sliderRef = useRef(null)
 
   if (!product) {
@@ -27,14 +28,22 @@ export default function Product() {
     )
   }
 
+  const images = getProductImages(product, color)
+
   function handleBuy() {
     if (!size) {
       setSizeError(true)
       return
     }
-    addItem({ id: product.id, name: product.name, size, qty: 1, price: product.price })
+    addItem({ id: product.id, name: product.name, size, color, qty: 1, price: product.price })
     setAdded(true)
     setTimeout(() => setAdded(false), 1500)
+  }
+
+  function handleColorChange(key) {
+    setColor(key)
+    setActiveImage(0)
+    if (sliderRef.current) sliderRef.current.scrollTo({ left: 0 })
   }
 
   function handleSliderScroll() {
@@ -55,19 +64,23 @@ export default function Product() {
             onScroll={handleSliderScroll}
             className="flex overflow-x-auto snap-x snap-mandatory"
           >
-            {Array.from({ length: product.imageCount }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] bg-tile shrink-0 w-full snap-center" />
+            {images.map((src, i) => (
+              <div key={src} className="aspect-[3/4] bg-tile shrink-0 w-full snap-center overflow-hidden">
+                <img src={src} alt={`${product.name} ${i + 1}`} className="h-full w-full object-cover" />
+              </div>
             ))}
           </div>
           <div className="absolute bottom-3 right-3 text-xs bg-white/80 px-2 py-1 tabular-nums">
-            {activeImage + 1} / {product.imageCount}
+            {activeImage + 1} / {images.length}
           </div>
         </div>
 
         {/* Desktop: stacked gallery, scrolls behind the sticky info panel */}
         <div className="hidden md:grid gap-0.5 md:border-r md:border-line">
-          {Array.from({ length: product.imageCount }).map((_, i) => (
-            <div key={i} className="aspect-[3/4] bg-tile" />
+          {images.map((src, i) => (
+            <div key={src} className="aspect-[3/4] bg-tile overflow-hidden">
+              <img src={src} alt={`${product.name} ${i + 1}`} className="h-full w-full object-cover" />
+            </div>
           ))}
         </div>
 
@@ -79,6 +92,29 @@ export default function Product() {
                   <h1 className="text-xs uppercase tracking-wide text-accent">{product.name}</h1>
                   <p className="text-xs tabular-nums">£{product.price}</p>
                 </div>
+
+                {product.colors && (
+                  <div className="grid gap-2 mt-2">
+                    <p className="text-xs text-muted">
+                      Colour: {product.colors.find((c) => c.key === color)?.label}
+                    </p>
+                    <div className="flex items-center gap-3" role="group" aria-label="Colour">
+                      {product.colors.map((c) => (
+                        <button
+                          key={c.key}
+                          type="button"
+                          onClick={() => handleColorChange(c.key)}
+                          aria-label={c.label}
+                          aria-pressed={color === c.key}
+                          className={`h-6 w-6 rounded-full border ${
+                            color === c.key ? 'ring-2 ring-black ring-offset-2' : 'border-line'
+                          }`}
+                          style={{ backgroundColor: c.swatch }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex items-center gap-6 mt-2">
                   {SIZES.map((s) => (
@@ -141,7 +177,13 @@ export default function Product() {
           {recommended.map((p) => (
             <div key={p.id}>
               <Link to={`/products/${p.id}`} className="block">
-                <div className="aspect-[3/4] bg-tile" />
+                <div className="aspect-[3/4] bg-tile overflow-hidden">
+                  <img
+                    src={getProductImages(p)[0]}
+                    alt={p.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </Link>
               <div className="mt-3 flex items-center gap-4">
                 <Link to={`/products/${p.id}`} className="text-black underline text-xs">

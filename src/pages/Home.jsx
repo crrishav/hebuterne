@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { PRODUCTS } from '../data/products'
+import { PRODUCTS, getProductImages } from '../data/products'
 
 const WAVE_ITEMS = [
   {
@@ -45,7 +45,13 @@ export default function Home() {
           {PRODUCTS.slice(0, 4).map((product) => (
             <div key={product.id}>
               <Link to={`/products/${product.id}`} className="block">
-                <div className="aspect-[3/4] bg-tile" />
+                <div className="aspect-[3/4] bg-tile overflow-hidden">
+                  <img
+                    src={getProductImages(product)[0]}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               </Link>
               <div className="mt-3 flex items-center gap-6 sm:gap-10">
                 <button

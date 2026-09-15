@@ -22,7 +22,9 @@ export function CartProvider({ children }) {
 
   function addItem(item) {
     setItems((prev) => {
-      const existing = prev.find((l) => l.id === item.id && l.size === item.size)
+      const existing = prev.find(
+        (l) => l.id === item.id && l.size === item.size && l.color === item.color,
+      )
       if (existing) {
         return prev.map((l) =>
           l === existing ? { ...l, qty: Math.min(MAX_QTY, l.qty + item.qty) } : l,
@@ -39,11 +41,11 @@ export function CartProvider({ children }) {
     })
   }
 
-  function setQty(id, size, delta) {
+  function setQty(id, size, color, delta) {
     setItems((prev) =>
       prev
         .map((l) =>
-          l.id === id && l.size === size
+          l.id === id && l.size === size && l.color === color
             ? { ...l, qty: Math.min(MAX_QTY, l.qty + delta) }
             : l,
         )
@@ -51,8 +53,8 @@ export function CartProvider({ children }) {
     )
   }
 
-  function removeItem(id, size) {
-    setItems((prev) => prev.filter((l) => !(l.id === id && l.size === size)))
+  function removeItem(id, size, color) {
+    setItems((prev) => prev.filter((l) => !(l.id === id && l.size === size && l.color === color)))
   }
 
   function clearCart() {

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
+  <title>Hebuterne</title>
+  <meta name="description" content="Silk slip dress. Silk from Nepal, cut and sewn in Kathmandu, finished in London. Ships in 2-3 days.">
+</head>
+<body data-page="product" data-clarity-id="" data-gtag-id="" data-plausible-domain="">
+  <div class="announce"><span class="announce-d">Silk from Nepal, cut and sewn in Kathmandu, finished in London. UK delivery included. Ships in 2-3 days.</span><span class="announce-m">Silk from Nepal. Ships in 2-3 days.</span></div>
+  <header class="header">
+    <div class="header-left">
+      <button type="button" class="icon-btn" data-open="menu" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14"/></svg>
+      </button>
+      <a class="help" href="mailto:studio@hebuterne.co.uk">Help</a>
+    </div>
+    <a class="wordmark" href="./">Hebuterne</a>
+    <button type="button" class="icon-btn bag-btn" data-open="bag" aria-expanded="false" aria-controls="bag" aria-label="Bag">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 6.5h11l.5 10h-12z"/><path d="M7 6.5V5a3 3 0 0 1 6 0v1.5"/></svg>
+      <span class="bag-count" data-bag-count>00</span>
+    </button>
+  </header>
+
+  <div class="backdrop" data-backdrop data-close></div>
+  <aside class="panel panel-left" id="menu" aria-label="Menu">
+    <div class="panel-head">
+      <span>Menu</span>
+      <button type="button" class="icon-btn" data-close aria-label="Close">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <nav class="menu-links">
+      <a href="./" data-close>Shop</a>
+      <a href="#sizing" data-close>Sizing</a>
+      <a href="#delivery" data-close>Delivery</a>
+      <a href="info.html">Info</a>
+      <a href="mailto:studio@hebuterne.co.uk">Contact</a>
+    </nav>
+  </aside>
+  <aside class="panel panel-right" id="bag" aria-label="Bag">
+    <div class="panel-head">
+      <span>Bag <span class="bag-count" data-bag-count>00</span></span>
+      <button type="button" class="icon-btn" data-close aria-label="Close">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <div class="bag-lines" data-bag-lines></div>
+    <div class="bag-foot" data-bag-foot></div>
+  </aside>
+
+  <main class="product" data-product></main>
+
+  <div class="sticky-bar" data-sticky-bar hidden>
+    <span class="sticky-price" data-sticky-price></span>
+    <button type="button" class="btn" data-sticky-buy>Add to bag</button>
+  </div>
+
+  <footer class="footer">
+    <a href="info.html">Info</a>
+    <a href="mailto:studio@hebuterne.co.uk">studio@hebuterne.co.uk</a>
+    <span>London</span>
+  </footer>
+  <script>window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script src="products.js"></script>
+  <script src="shop.js"></script>
+  <script>
+    (function () {
+      const S = window.SHOP, Shop = window.Shop, P = window.PRODUCTS;
+      const id = new URLSearchParams(location.search).get("id");
+      const p = Shop.byId[id] || P[0];
+      const vault = p.status !== "available";
+      document.title = p.name + " - Hebuterne";
+      document.querySelector('meta[name="description"]').content = `${p.name}. Silk slip dress. ${Shop.money(p.price)}, delivery included. Silk from Nepal, cut and sewn in Kathmandu, finished in London.`;
+
+      let colour = p.colours[0].key;
+      const colourOf = k => p.colours.find(c => c.key === k) || p.colours[0];
+
+      document.querySelector("[data-product]").innerHTML = `
+        <div class="gallery" data-gallery></div>
+        <div class="info" id="top">
+          <div class="notice" data-notice hidden></div>
+          <div class="referral" data-referral hidden>
+            <p class="referral-head">Give a friend &pound;20 off their first order.</p>
+            <div class="referral-row">
+              <input class="field" type="text" readonly data-referral-link aria-label="Referral link">
+              <button type="button" class="btn" data-referral-copy>Copy</button>
+            </div>
+            <p class="hint" data-referral-msg aria-live="polite"></p>
+          </div>
+          <h1>${p.name}</h1>
+          <p class="sub">Silk slip dress</p>
+          <p class="price">${Shop.money(p.price)}. Delivery included.</p>
+          <p class="hint ref-note" data-ref-note hidden>&pound;20 off applied for you</p>
+          ${p.colours.length > 1
+            ? `<p class="hint" data-colour-hint>Colour: ${p.colours[0].label}</p>
+               <div class="colours" data-colours role="group" aria-label="Colour">${p.colours.map(c => `<button type="button" class="swatch" data-colour="${c.key}" aria-label="${c.label}"><img src="${c.flat || c.gallery[0]}" alt="" loading="lazy"></button>`).join("")}</div>`
+            : ""}
+          ${vault
+            ? `<p class="hint">Not available yet.</p>`
+            : `<div class="sizes" data-sizes role="group" aria-label="Size">${S.sizes.map(sz => `<button type="button" data-size="${sz}">${sz}</button>`).join("")}</div>
+               <p class="hint" data-hint>UK sizes</p>
+               <button type="button" class="btn" data-buy>Add to bag</button>
+               <p class="ship-date">Ships in 2-3 days.</p>`}
+          <p class="trust">Silk from Nepal, cut and sewn in Kathmandu, finished in London. Returns within 14 days, unworn. Secure payment &mdash; Apple Pay and Link supported.</p>
+          <ul class="facts">${p.facts.map(f => `<li>${f}</li>`).join("")}</ul>
+          <dl class="details">
+            <div id="sizing">
+              <dt>Sizing</dt>
+              <dd>UK 6 to 14, standard fit. Fit questions: <a href="mailto:studio@hebuterne.co.uk">studio@hebuterne.co.uk</a></dd>
+            </div>
+            <div id="delivery">
+              <dt>Delivery</dt>
+              <dd>Ships in 2-3 days. UK delivery included. Returns within 14 days, unworn. <a href="mailto:studio@hebuterne.co.uk?subject=Return%20request">Start a return</a>.</dd>
+            </div>
+          </dl>
+        </div>`;
+
+      const sizes = document.querySelector("[data-sizes]");
+      const hint = document.querySelector("[data-hint]");
+      const buy = document.querySelector("[data-buy]");
+      const stickyBar = document.querySelector("[data-sticky-bar]");
+      const stickyBuy = document.querySelector("[data-sticky-buy]");
+      const stickyPrice = document.querySelector("[data-sticky-price]");
+      const gallery = document.querySelector("[data-gallery]");
+      const colours = document.querySelector("[data-colours]");
+      const colourHint = document.querySelector("[data-colour-hint]");
+      let size = null;
+
+      if (stickyPrice) stickyPrice.textContent = Shop.money(p.price);
+
+      function renderGallery() {
+        const c = colourOf(colour);
+        gallery.innerHTML = c.gallery.map((src, i) => `<img src="${src}" alt="${p.name}, silk slip dress, ${c.label}" width="896" height="1200" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} data-photo>`).join("");
+        gallery.querySelectorAll("[data-photo]").forEach(img => img.addEventListener("click", () => Shop.track("photo_zoom", { id: p.id, colour })));
+      }
+      renderGallery();
+
+      if (colours) {
+        colours.querySelectorAll("[data-colour]").forEach(b => b.classList.toggle("is-on", b.dataset.colour === colour));
+        colours.addEventListener("click", e => {
+          const b = e.target.closest("[data-colour]");
+          if (!b) return;
+          colour = b.dataset.colour;
+          colours.querySelectorAll("button").forEach(x => x.classList.toggle("is-on", x === b));
+          colourHint.textContent = "Colour: " + colourOf(colour).label;
+          renderGallery();
+          Shop.track("colour_select", { id: p.id, colour });
+        });
+      }
+
+      if (sizes) sizes.addEventListener("click", e => {
+        const b = e.target.closest("[data-size]");
+        if (!b) return;
+        size = b.dataset.size;
+        sizes.querySelectorAll("button").forEach(x => x.classList.toggle("is-on", x === b));
+        hint.textContent = "UK " + size;
+        hint.classList.remove("is-error");
+        Shop.track("size_select", { id: p.id, size });
+      });
+
+      function addToBag() {
+        if (!size) { hint.textContent = "Pick a size"; hint.classList.add("is-error"); return; }
+        Shop.add(p.id, size, colour);
+      }
+      if (buy) buy.addEventListener("click", addToBag);
+      if (stickyBuy) stickyBuy.addEventListener("click", addToBag);
+
+      if (buy && stickyBar) {
+        const io = new IntersectionObserver(([entry]) => {
+          stickyBar.hidden = entry.isIntersecting || !matchMedia("(max-width: 899px)").matches;
+        }, { rootMargin: "-60px 0px 0px 0px" });
+        io.observe(buy);
+        matchMedia("(max-width: 899px)").addEventListener("change", () => io.observe(buy));
+      }
+
+      const refNote = document.querySelector("[data-ref-note]");
+      if (refNote) refNote.hidden = !Shop.getRef();
+    })();
+  </script>
+</body>
+</html>

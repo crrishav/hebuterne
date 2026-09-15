@@ -8,10 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:,">
-  <title>Hebuterne</title>
-  <meta name="description" content="Silk slip dresses. Silk from Nepal, cut and sewn in Kathmandu, finished in London. Each dress named after a Modigliani painting of Jeanne H&eacute;buterne.">
+  <title>Info - Hebuterne</title>
+  <meta name="description" content="Jeanne Hébuterne. Silk from Nepal, cut and sewn in Kathmandu, finished in London.">
 </head>
-<body data-page="shop" data-clarity-id="" data-gtag-id="" data-plausible-domain="">
+<body data-page="info" data-clarity-id="" data-gtag-id="" data-plausible-domain="">
   <div class="announce"><span class="announce-d">Silk from Nepal, cut and sewn in Kathmandu, finished in London. UK delivery included. Ships in 2-3 days.</span><span class="announce-m">Silk from Nepal. Ships in 2-3 days.</span></div>
   <header class="header">
     <div class="header-left">
@@ -52,25 +52,26 @@
     <div class="bag-foot" data-bag-foot></div>
   </aside>
 
-  <main class="shop">
-    <div class="shop-head">
-      <h1>Dresses</h1>
-      <p class="hint">Ships in 2-3 days. Silk from Nepal, cut and sewn in Kathmandu, finished in London.</p>
-    </div>
-    <div class="notice" data-notice hidden></div>
-    <div class="referral" data-referral hidden>
-      <p class="referral-head">Give a friend &pound;20 off their first order.</p>
-      <div class="referral-row">
-        <input class="field" type="text" readonly data-referral-link aria-label="Referral link">
-        <button type="button" class="btn" data-referral-copy>Copy</button>
-      </div>
-      <p class="hint" data-referral-msg aria-live="polite"></p>
-    </div>
-    <div class="grid" data-grid></div>
+  <main class="page">
+    <h1>Info</h1>
+    <section>
+      <h2>Jeanne H&eacute;buterne</h2>
+      <p>1898 to 1920. Painter. Met Amedeo Modigliani in Paris in 1917, aged 19. He painted her more than twenty times.</p>
+      <p>He died on 24 January 1920. She died the next day. They are buried together at P&egrave;re Lachaise.</p>
+      <p>Each dress is named after one of his paintings of her.</p>
+    </section>
+    <section>
+      <h2>Silk</h2>
+      <p>Spun and woven in Nepal, cut and sewn in Kathmandu, finished in London.</p>
+    </section>
+    <section>
+      <h2>Contact</h2>
+      <p><a href="mailto:studio@hebuterne.co.uk">studio@hebuterne.co.uk</a></p>
+    </section>
   </main>
 
   <footer class="footer">
-    <a href="info.html">Info</a>
+    <a href="./">Shop</a>
     <a href="mailto:studio@hebuterne.co.uk">studio@hebuterne.co.uk</a>
     <span>London</span>
   </footer>
@@ -78,24 +79,5 @@
   <script defer src="/_vercel/insights/script.js"></script>
   <script src="products.js"></script>
   <script src="shop.js"></script>
-  <script>
-    (function () {
-      const P = window.PRODUCTS, Shop = window.Shop;
-      document.querySelector("[data-grid]").innerHTML = P.map(p => {
-        const c = p.colours[0];
-        return `
-        <a class="card" href="product.html?id=${p.id}">
-          <div class="card-media">
-            <img src="${c.gallery[0]}" alt="${p.name}, silk slip dress" width="896" height="1200" loading="lazy">
-            ${c.flat ? `<img class="alt" src="${c.flat}" alt="" width="896" height="1200" loading="lazy">` : ""}
-          </div>
-          <div class="card-body">
-            <span class="card-name">${p.name}</span>
-            <span class="card-price">${Shop.money(p.price)}</span>
-          </div>
-        </a>`;
-      }).join("");
-    })();
-  </script>
 </body>
 </html>
